@@ -12,14 +12,14 @@ export function Loginpage() {
     const navigate = useNavigate();
 
     async function handleLogin() {
-        await axios.post('http://localhost:3040/user/login', {
+        await axios.post('http://localhost:4444/user/login', {
             username: username,
             password: pass
         })
         .then((res) => {
             console.log(res.data);
             localStorage.setItem('token', res.data.token);
-            localStorage.serItem('cart', JSON.stringify([]));
+            localStorage.setItem('cart', JSON.stringify([]));
             alert(res.data.msg);
             navigate("/dashboard");
         })

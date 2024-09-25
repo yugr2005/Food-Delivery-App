@@ -28,6 +28,14 @@ const resSchema = mongoose.Schema({
         type : String,
         required : true
     },
+    image : {
+        type : String,
+        required : true
+    },
+    category : {
+        type : String,
+        required : true
+    },
     address : {
         type : String,
         required : true
@@ -51,6 +59,10 @@ const foodSchema = mongoose.Schema({
         type : String
     },
     nameitem : {
+        type : String,
+        required : true
+    },
+    image : {
         type : String,
         required : true
     },

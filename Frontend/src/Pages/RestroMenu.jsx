@@ -12,13 +12,14 @@ export function RestroMenu() {
     const params = useParams();
     const[menu, setMenu] = useState([]);
     const[name, setName] = useState("");
+    const[show, setShow] = useState(false);
 
     const {addToCart} = useCart();
     const {cart} = useCart();
     const {clearCart} = useCart();
 
     const fooditems = async () => {
-        await axios.get(`http://localhost:3040/user/getMenu/restaurant/${params.id}`, {
+        await axios.get(`http://localhost:4444/user/getMenu/restaurant/${params.id}`, {
             headers : {
                 Authorization : `${localStorage.getItem('token')}`
             }
@@ -50,12 +51,15 @@ export function RestroMenu() {
     return(
         <div>
             <h1>{params.id} Menu</h1>
-            {menu.map((menu, index) => (<MenuCard key={index} data={menu} Addtocart={addToCart}/>))}
+            {menu.map((menu, index) => (<MenuCard key={index} data={menu} Addtocart={addToCart} setShow={setShow}/>))}
         
 
             <button onClick={() => {navigate(`/cart/${name}/${params.id}`)}} >Place Order</button>
 
+            {show ? <div>Item added to cart</div> : null}
     
         </div>
+
+        
     )
 }

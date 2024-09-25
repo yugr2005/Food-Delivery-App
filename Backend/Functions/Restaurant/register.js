@@ -18,6 +18,8 @@ async function register(req,res){
         username : data.username,
         address : data.address,
         phone : data.phone,
+        image : data.image,
+        category : data.category,
         menu : []
 
     })

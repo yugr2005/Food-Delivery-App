@@ -6,16 +6,18 @@ import { RestroCard } from "../Components/RestroCard";
 export function Dashboard(){
 
     const[data, setData] = useState([]);
+    const[search,setSearch] = useState("");
 
-    const getRestro = async () => {
-        await axios.get('http://localhost:3040/user/getRestro', {
+
+    const handleSearch = async () => {
+        const response = await axios.post('http://localhost:4444/user/cityRestro', {city : search}, {
             headers : {
                 Authorization : `${localStorage.getItem('token')}`
             }
         })
         .then((res) => {
             console.log(res.data);
-            setData(res.data.restaurants);
+            setData(res.data.restaurants)
         })
         .catch((err) => {
             console.log(err);
@@ -23,14 +25,16 @@ export function Dashboard(){
     }
 
     useEffect(() => {
-        getRestro();
+        handleSearch();
     }, [])
 
     return(
         <div>
-            <Navbar/>
-
+            <Navbar handleSearch={handleSearch} setSearch={setSearch}/>
+            <div className="grid grid-cols-4">
             {data.map((restro, index) => (<RestroCard key={index} data={restro}/>))}
+            </div>
+            
 
         </div>
     )

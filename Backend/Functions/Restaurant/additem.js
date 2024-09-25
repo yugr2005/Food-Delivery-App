@@ -29,6 +29,7 @@ async function additem(req,res){
             restroname : restaurantexists.username,
             nameitem : item.nameitem,
             price : item.price,
+            image : item.image,
             description : item.description
         })
     

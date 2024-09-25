@@ -1,8 +1,10 @@
 const { restaurant } = require("../../db");
 
-async function getRestro(req,res){
+async function cityRestro(req,res){
+    
+    const city = req.body;
 
-    const restaurants = await restaurant.find({});
+    const restaurants = await restaurant.find({address : {$regex : city.city}});
 
     if(!restaurants){
         res.status(404).json({
@@ -18,5 +20,25 @@ async function getRestro(req,res){
 
 
 }
+async function getRestro(req,res){
 
-module.exports = getRestro;
+
+    const restaurants = await restaurant.find({});
+
+    if(!restaurants){
+        res.status(404).json({
+            msg : "Restaurant not found"
+        })
+        return;
+    }
+
+    res.json({
+        msg : "Restaurants found",
+        restaurants : restaurants
+    })
+}
+
+module.exports = {
+    getRestro,
+    cityRestro,
+}

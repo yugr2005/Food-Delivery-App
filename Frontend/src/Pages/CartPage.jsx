@@ -27,7 +27,7 @@ export function CartPage(){
 
     console.log(sendOrder);
 
-        const response = await axios.post(`http://localhost:3040/user/createorder/restaurant/${params.id}`, {
+        const response = await axios.post(`http://localhost:4444/user/createorder/restaurant/${params.id}`, {
 
             restaurant : params.name,
             order : sendOrder,
@@ -43,6 +43,7 @@ export function CartPage(){
             
         })
         localStorage.setItem('cart', JSON.stringify([]));
+        alert("Order created successfully");
         
     }
 
