@@ -1,5 +1,6 @@
 const { user, userOrder } = require("../../db");
 const { safeUser } = require("../../types");
+const bcrypt = require("bcrypt");
 const genJwt = require("../Middlewares/genJwt");
 
 async function signup(req,res){
@@ -14,11 +15,14 @@ async function signup(req,res){
         })
         return;
     }
+
+    const hashed = await bcrypt.hash(person.password, 10);
     
     await user.create({
         username : person.username,
         email : person.email,
-        password : person.password
+        address : person.address,
+        password : hashed
     })
 
     const token = genJwt(person);

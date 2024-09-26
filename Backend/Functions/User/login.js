@@ -14,6 +14,15 @@ async function login(req,res){
         return;
     }
 
+    const validPassword = await bcrypt.compare(person.password, find.password);
+
+    if (!validPassword) {
+        res.status(401).json({
+            msg: "Invalid credentials"
+        });
+        return;
+    }
+
     const token = genJwt(person);
 
     res.json({

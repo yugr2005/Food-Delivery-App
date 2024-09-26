@@ -17,8 +17,6 @@ export function RestroCard({data}){
             <p className="mt-2 text-sm text-gray-500">{data.category}</p>
             <p className="text-sm text-gray-500">{data.address}</p>
             </div>
-            
-
 
         </div>
             

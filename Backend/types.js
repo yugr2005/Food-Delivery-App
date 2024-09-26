@@ -4,6 +4,7 @@ const safeUser = zod.object({
 
     username : zod.string(),
     email : zod.string().email(),
+    address : zod.string(),
     password : zod.string().min(8),
 
 })

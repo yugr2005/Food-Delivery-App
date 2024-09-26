@@ -31,8 +31,32 @@ export function CartProvider({ children }) {
         setCart([]);
     };
 
+    const removefromcart = (item) => {
+        setCart((prevCart) => {
+            const exist = prevCart.find((cartItem) => cartItem._id === item._id);
+    
+            if (exist && exist.quantity === 1) {
+                // If the item has only one left, remove it from the cart
+                return prevCart.filter(cartItem => cartItem._id !== item._id);
+            } else {
+                // Otherwise, decrease its quantity
+                return prevCart.map(cartItem => cartItem._id === item._id
+                    ? { ...cartItem, quantity: cartItem.quantity - 1 }
+                    : cartItem
+                );
+            }
+        });
+      };
+
+    const removeItem = (item) => {
+        setCart((prevCart) => {
+            return prevCart.filter((cartItem) => cartItem._id !== item._id);
+        })
+        
+    }
+
     return (
-        <CartContext.Provider value={{ addToCart, cart, clearCart }}>
+        <CartContext.Provider value={{ addToCart, cart, clearCart, removefromcart, removeItem }}>
             {children}
         </CartContext.Provider>
     );
