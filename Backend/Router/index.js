@@ -2,7 +2,7 @@ const express = require("express");
 const signup = require("../Functions/User/signup");
 const login = require("../Functions/User/login");
 const register = require("../Functions/Restaurant/register");
-const reslogin = require("../Functions/Restaurant/resLogin");
+// const reslogin = require("../Functions/Restaurant/resLogin");
 const additem = require("../Functions/Restaurant/additem");
 const auth = require("../Functions/Middlewares/auth");
 const {getRestro} = require("../Functions/User/getRestro");
@@ -38,7 +38,7 @@ router.post('/admin/orderStatus', auth, orderStatus);
 
 //Restaurants Routes
 router.post('/register', register);
-router.post('/reslogin',reslogin);
+// router.post('/reslogin',reslogin);
 router.post('/additem', auth, additem)
 
 module.exports = router;
