@@ -15,6 +15,7 @@ const adminLogin = require("../Functions/Admin/adminLogin");
 const orderHistory = require("../Functions/Admin/orderHistory");
 const orderStatus = require("../Functions/Admin/orderStatus");
 const {cityRestro} = require("../Functions/User/getRestro");
+const payment = require("../Functions/User/payment");
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.post('/cityRestro', auth, cityRestro);
 router.post('/createorder/restaurant/:id', auth, createorder);
 router.get('/getMenu/restaurant/:id', auth, getMenu);
 router.get('/history', auth, history);
+router.post('/payment' , auth, payment);
 
 //Admin Routes
 router.post('/admin/adminSignup', adminSignup);

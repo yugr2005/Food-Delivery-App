@@ -2,13 +2,15 @@ import axios from "axios";
 import { useCart } from "../Components/Addtocart";
 import { CartCard } from "../Components/Cart";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { loadStripe } from "@stripe/stripe-js";
+import { useStripe, CardElement, useElements } from "@stripe/react-stripe-js";
 
 export function CartPage() {
   const params = useParams();
   const { cart, clearCart, removeItem } = useCart();  // Destructure both cart and clearCart
-  const [show, setShow] = useState(false);  // To manage notification display
+
 
   // Calculate the total price of items in the cart
   const getTotalPrice = () => {
@@ -18,21 +20,22 @@ export function CartPage() {
     }
     return price.toFixed(2);
   };
+  
+  //Payment
+  const stripe = useStripe();
+const elements = useElements();
+const[key, setKey] = useState("");
 
-  const handleOrder = async () => {
-    const sendOrder = cart.map((item) => ({
-      fooditem: item.nameitem,
-      quantity: item.quantity,
-    }));
 
+
+const clientKey = async () => {
     try {
+        const price = Math.round(parseFloat(getTotalPrice()) * 100);  // Convert to cents
+
       const response = await axios.post(
-        `http://localhost:4444/user/createorder/restaurant/${params.id}`,
+        "http://localhost:4444/user/payment",
         {
-          restaurant: params.name,
-          order: sendOrder,
-          price: getTotalPrice(),
-          status: "Pending",
+          amount: price,
         },
         {
           headers: {
@@ -40,13 +43,71 @@ export function CartPage() {
           },
         }
       );
-      console.log(response.data);
-      localStorage.setItem("cart", JSON.stringify([]));  // Clear cart
-      alert("Order created successfully");
+    //   console.log(price);
+      setKey(response.data.clientKey);
+     
+    //   console.log("Client Secret Key: ", response.data.clientKey);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching client key:", error);
     }
   };
+  
+
+useEffect(() => {
+    clientKey()
+},[cart])
+
+const handleOrder = async () => {
+    const sendOrder = cart.map((item) => ({
+      fooditem: item.nameitem,
+      quantity: item.quantity,
+    }));
+  
+    if (!key) {
+      alert("Invalid Payment");
+      return;
+    }
+  
+    const cardElement = elements.getElement(CardElement);
+  
+    try {
+      const { paymentIntent, error } = await stripe.confirmCardPayment(key, {
+        payment_method: {
+          card: cardElement,
+        },
+      });
+  
+      if (error) {
+        console.error("Payment failed:", error);
+        alert("Payment failed. Please try again.");
+        return;
+      }
+  
+      if (paymentIntent.status === "succeeded") {
+        const response = await axios.post(
+          `http://localhost:4444/user/createorder/restaurant/${params.id}`,
+          {
+            restaurant: params.name,
+            order: sendOrder,
+            price: getTotalPrice(),
+            status: "Pending",
+          },
+          {
+            headers: {
+              Authorization: `${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        // console.log(response.data);
+        localStorage.setItem("cart", JSON.stringify([])); // Clear cart
+        clearCart();
+        alert("Order created successfully");
+      }
+    } catch (error) {
+      console.error("Error during payment:", error);
+    }
+  };
+  
 
   return (
     <div className="max-w-screen-lg mx-auto px-4">
@@ -88,6 +149,9 @@ export function CartPage() {
               <p className="text-gray-800 font-semibold">$20.82</p>
             </div>
             <hr className="my-4" />
+
+
+
             <div className="flex justify-between items-center text-lg font-bold">
               <p>Total</p>
               <p>
@@ -95,6 +159,8 @@ export function CartPage() {
               </p>
               {/* <button onClick={removeItem}>Remove</button> */}
             </div>
+
+            <CardElement />
 
             {/* Checkout Button */}
             <button

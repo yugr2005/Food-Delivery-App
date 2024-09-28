@@ -1,4 +1,5 @@
 const { user } = require("../../db");
+const bcrypt = require("bcrypt");
 const genJwt = require("../Middlewares/genJwt");
 
 async function login(req,res){

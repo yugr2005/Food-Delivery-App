@@ -8,6 +8,7 @@ export function Signuppage() {
     const [showPass, setShowPass] = useState(false);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
+    const [address, setAddress] = useState("");
     const [pass, setPass] = useState("");
 
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ export function Signuppage() {
         await axios.post('http://localhost:4444/user/signup', {
             username: username,
             email: email,
+            address : address,
             password: pass
         })
         .then((res) => {
@@ -27,6 +29,7 @@ export function Signuppage() {
         })
         .catch((err) => {
             console.log(err);
+            alert(err);
         });
     }
 
@@ -57,6 +60,17 @@ export function Signuppage() {
                         value={email}
                         className="w-full p-3 border border-gray-300 rounded-md bg-gray-50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
                         onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+
+                <div className="mb-4 w-full">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <Inputbox
+                        type="text"
+                        placeholder="Address"
+                        value={address}
+                        className="w-full p-3 border border-gray-300 rounded-md bg-gray-50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                 </div>
 

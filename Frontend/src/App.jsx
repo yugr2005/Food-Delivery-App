@@ -13,10 +13,18 @@ import { AddMenu } from './Pages/AddMenu';
 import { AdminSignupPage } from './Pages/AdminSignupPage';
 import { AdminLoginPage } from './Pages/AdminLoginPage';
 import { AdminStatusChange } from './Pages/AdminStatusChange';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { HistoryPage } from './Pages/HistoryPage';
+
+const stripePromise = loadStripe('pk_test_51Q3UsjACG9jWgjbPZLIjc3eocHTwQFkuupub5GvrKujzt89QsYTAM2h12fpWJiJcpJZty2ZCUXju4Moo1AlfCmDc00Dc76X3XR');
 
 function App() {
+
+
   return (
     <>
+    <Elements stripe={stripePromise}>
     <CartProvider>
     <BrowserRouter>
         <Routes>
@@ -34,9 +42,11 @@ function App() {
           <Route path='/adminlogin' element={<AdminLoginPage/>}/>
 
           <Route path='/pendingorder' element={<AdminStatusChange/>}/>
+          <Route path='/orderhistory' element={<HistoryPage/>}/>
         </Routes>
       </BrowserRouter>
     </CartProvider>
+    </Elements>
       
     </>
   );

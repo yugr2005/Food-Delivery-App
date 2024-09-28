@@ -31,7 +31,7 @@ export function Dashboard(){
     return(
         <div>
             <Navbar handleSearch={handleSearch} setSearch={setSearch}/>
-            <div className="grid grid-cols-4">
+            <div className="grid grid-cols-4 gap-4 p-4">
             {data.map((restro, index) => (<RestroCard key={index} data={restro}/>))}
             </div>
             
