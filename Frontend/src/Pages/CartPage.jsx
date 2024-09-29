@@ -9,96 +9,75 @@ import { useStripe, CardElement, useElements } from "@stripe/react-stripe-js";
 
 export function CartPage() {
   const params = useParams();
-  const { cart, clearCart, removeItem } = useCart();  // Destructure both cart and clearCart
-
+  const { cart, clearCart, removeItem } = useCart();
 
   // Calculate the total price of items in the cart
   const getTotalPrice = () => {
     let price = 0;
     for (let i = 0; i < cart.length; i++) {
-      price = price + cart[i].price * cart[i].quantity;
+      price += cart[i].price * cart[i].quantity;
     }
     return price.toFixed(2);
   };
-  
-  //Payment
+
+  // Payment
   const stripe = useStripe();
-const elements = useElements();
-const[key, setKey] = useState("");
+  const elements = useElements();
+  const [key, setKey] = useState("");
 
-
-
-const clientKey = async () => {
+  const clientKey = async () => {
     try {
-        const price = Math.round(parseFloat(getTotalPrice()) * 100);  // Convert to cents
-
+      const price = Math.round(parseFloat(getTotalPrice()) * 100);
       const response = await axios.post(
-        "http://localhost:4444/user/payment",
-        {
-          amount: price,
-        },
-        {
-          headers: {
-            Authorization: `${localStorage.getItem("token")}`,
-          },
-        }
+        "https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/payment",
+        { amount: price },
+        { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
-    //   console.log(price);
       setKey(response.data.clientKey);
-     
-    //   console.log("Client Secret Key: ", response.data.clientKey);
     } catch (error) {
       console.error("Error fetching client key:", error);
     }
   };
-  
 
-useEffect(() => {
-    clientKey()
-},[cart])
+  useEffect(() => {
+    clientKey();
+  }, [cart]);
 
-const handleOrder = async () => {
+  const handleOrder = async () => {
     const sendOrder = cart.map((item) => ({
       fooditem: item.nameitem,
       quantity: item.quantity,
     }));
-  
+
     if (!key) {
       alert("Invalid Payment");
       return;
     }
-  
+
     const cardElement = elements.getElement(CardElement);
-  
+
     try {
       const { paymentIntent, error } = await stripe.confirmCardPayment(key, {
-        payment_method: {
-          card: cardElement,
-        },
+        payment_method: { card: cardElement },
       });
-  
+
       if (error) {
         console.error("Payment failed:", error);
         alert("Payment failed. Please try again.");
         return;
       }
-  
+
       if (paymentIntent.status === "succeeded") {
-        const response = await axios.post(
-          `http://localhost:4444/user/createorder/restaurant/${params.id}`,
+        await axios.post(
+          `https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/createorder/restaurant/${params.id}`,
           {
             restaurant: params.name,
             order: sendOrder,
             price: getTotalPrice(),
             status: "Pending",
           },
-          {
-            headers: {
-              Authorization: `${localStorage.getItem("token")}`,
-            },
-          }
+          { headers: { Authorization: `${localStorage.getItem("token")}` } }
         );
-        // console.log(response.data);
         localStorage.setItem("cart", JSON.stringify([])); // Clear cart
         clearCart();
         alert("Order created successfully");
@@ -107,7 +86,6 @@ const handleOrder = async () => {
       console.error("Error during payment:", error);
     }
   };
-  
 
   return (
     <div className="max-w-screen-lg mx-auto px-4">
@@ -117,14 +95,14 @@ const handleOrder = async () => {
       </h1>
 
       {/* Cart Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Cart Items */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold mb-4">Your Items</h2>
           <div className="space-y-4">
             {cart.length > 0 ? (
               cart.map((item, index) => (
-                <CartCard key={index} data={item} clearCart={clearCart} removeItem={removeItem}/>
+                <CartCard key={index} data={item} clearCart={clearCart} removeItem={removeItem} />
               ))
             ) : (
               <p className="text-gray-600">Your cart is empty.</p>
@@ -150,14 +128,11 @@ const handleOrder = async () => {
             </div>
             <hr className="my-4" />
 
-
-
             <div className="flex justify-between items-center text-lg font-bold">
               <p>Total</p>
               <p>
                 ${(parseFloat(getTotalPrice()) + 1.49 + 20.82).toFixed(2)}
               </p>
-              {/* <button onClick={removeItem}>Remove</button> */}
             </div>
 
             <CardElement />
@@ -172,8 +147,6 @@ const handleOrder = async () => {
           </div>
         </div>
       </div>
-
-     
     </div>
   );
 }

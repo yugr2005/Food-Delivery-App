@@ -12,7 +12,7 @@ export function AdminSignupPage() {
     const navigate = useNavigate();
 
     async function handleLogin() {
-        await axios.post('http://localhost:4444/user/adminSignup', {
+        await axios.post('https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/adminSignup', {
             username: username,
             password: pass
         })

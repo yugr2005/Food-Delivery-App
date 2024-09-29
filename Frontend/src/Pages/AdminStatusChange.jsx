@@ -8,7 +8,7 @@ export function AdminStatusChange(){
     const[data, setData] = useState([]);
 
     const pendingOrders = async() => {
-        const response = await axios.get('http://localhost:4444/user/admin/orderHistory', {
+        const response = await axios.get('https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/admin/orderHistory', {
             headers : {
                 Authorization : `${localStorage.getItem('token')}`
             }
@@ -23,17 +23,9 @@ export function AdminStatusChange(){
         pendingOrders()
     },[])
 
-    // return(
-    //     <div>
-    //         <h1>Admin Orders Status</h1>
-
-    //         {data.map((item, index) => (<PendingOrderCard key={index} data={item}/>))}
-    //     </div>
-    // )
-
     return (
         <div>
-            <h1>Orders</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Pending Orders</h1>
             <div className="order-list">
                 {data.map((userOrder, index) => (
                     <OrderCard key={index} username={userOrder.username} orders={userOrder.order} />

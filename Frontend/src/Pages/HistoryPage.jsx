@@ -7,7 +7,7 @@ export function HistoryPage() {
 
     const handleOrders = async () => {
         try {
-            const response = await axios.get("http://localhost:4444/user/history", {
+            const response = await axios.get("https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/history", {
                 headers: {
                     Authorization: `${localStorage.getItem("token")}`,
                 },
@@ -24,6 +24,7 @@ export function HistoryPage() {
 
     return (
         <div className="max-w-screen-lg mx-auto px-4">
+            <h1 className="text-3xl font-bold text-center my-6">Order History</h1>
             {data.length > 0 ? (
                 data.map((userOrder, index) => (
                     <History

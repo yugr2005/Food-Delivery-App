@@ -11,11 +11,12 @@ export function RestroMenu() {
 
     const [menu, setMenu] = useState([]);
     const [name, setName] = useState("");
+    const [show, setShow] = useState(false);
 
     const { addToCart, cart, removefromcart } = useCart(); // Destructure addToCart and cart
 
     const fooditems = async () => {
-        await axios.get(`http://localhost:4444/user/getMenu/restaurant/${params.id}`, {
+        await axios.get(`https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/getMenu/restaurant/${params.id}`, {
             headers: {
                 Authorization: `${localStorage.getItem('token')}`
             }
@@ -60,13 +61,14 @@ export function RestroMenu() {
             </div>
     
             {/* Menu Grid */}
-            <div className="grid grid-cols-4 gap-4 p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
                 {menu.map((menuItem, index) => (
                     <MenuCard 
                         key={index} 
                         data={menuItem} 
                         Addtocart={addToCart} 
                         removefromcart={removefromcart} 
+                        setShow={setShow} // Include setShow if needed for notifications
                     />
                 ))}
             </div>

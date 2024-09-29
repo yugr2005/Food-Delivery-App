@@ -11,14 +11,14 @@ export function History({ username, orders }) {
     };
 
     return (
-        <div className="bg-white shadow-md rounded-lg p-6 my-4">
-            <h2 className="text-2xl font-bold mb-4">Order History for {username}</h2>
-            <p className="text-lg font-semibold">Total Spending: ${getTotalSpending()}</p>
+        <div className="bg-white shadow-md rounded-lg p-6 my-4 max-w-screen-lg mx-auto">
+            <h2 className="text-2xl font-bold mb-4 text-center">Order History for {username}</h2>
+            <p className="text-lg font-semibold text-center">Total Spending: ${getTotalSpending()}</p>
             <div className="mt-4 space-y-4">
                 {orders.map((order) => (
-                    <div key={order._id} className="bg-gray-100 p-4 rounded-lg">
+                    <div key={order._id} className="bg-gray-100 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                         <h3 className="text-xl font-semibold">{order.restaurant}</h3>
-                        <ul className="mt-2">
+                        <ul className="mt-2 list-disc list-inside">
                             {order.items.map((item) => (
                                 <li key={item._id} className="text-gray-800">
                                     {item.fooditem} - Quantity: {item.quantity}
