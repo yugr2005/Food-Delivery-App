@@ -8,7 +8,7 @@ export function Dashboard() {
     const [search, setSearch] = useState("");
 
     const handleSearch = async () => {
-        const response = await axios.post('https://backend-livid-phi.vercel.app//user/cityRestro', { city: search }, {
+        const response = await axios.post('https://backend-livid-phi.vercel.app/user/cityRestro', { city: search }, {
             headers: {
                 Authorization: `${localStorage.getItem('token')}`
             }

@@ -12,7 +12,7 @@ export function RestroLoginPage() {
     const navigate = useNavigate();
 
     async function handleLogin() {
-        await axios.post('https://backend-livid-phi.vercel.app//user/reslogin', {
+        await axios.post('https://backend-livid-phi.vercel.app/user/reslogin', {
             username: username,
             password: pass
         })

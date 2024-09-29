@@ -16,7 +16,7 @@ export function RestroMenu() {
     const { addToCart, cart, removefromcart } = useCart(); // Destructure addToCart and cart
 
     const fooditems = async () => {
-        await axios.get(`https://backend-livid-phi.vercel.app//user/getMenu/restaurant/${params.id}`, {
+        await axios.get(`https://backend-livid-phi.vercel.app/user/getMenu/restaurant/${params.id}`, {
             headers: {
                 Authorization: `${localStorage.getItem('token')}`
             }

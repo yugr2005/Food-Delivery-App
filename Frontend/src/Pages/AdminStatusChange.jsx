@@ -8,7 +8,7 @@ export function AdminStatusChange(){
     const[data, setData] = useState([]);
 
     const pendingOrders = async() => {
-        const response = await axios.get('https://backend-livid-phi.vercel.app//user/admin/orderHistory', {
+        const response = await axios.get('https://backend-livid-phi.vercel.app/user/admin/orderHistory', {
             headers : {
                 Authorization : `${localStorage.getItem('token')}`
             }

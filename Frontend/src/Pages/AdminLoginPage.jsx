@@ -12,7 +12,7 @@ export function AdminLoginPage() {
     const navigate = useNavigate();
 
     async function handleLogin() {
-        await axios.post('https://backend-livid-phi.vercel.app//user/adminLogin', {
+        await axios.post('https://backend-livid-phi.vercel.app/user/adminLogin', {
             username: username,
             password: pass
         })

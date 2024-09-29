@@ -6,7 +6,7 @@ export function OrderCard({ username, orders }) {
 
     try {
       const response = await axios.post(
-        "https://backend-livid-phi.vercel.app//user/admin/orderStatus",
+        "https://backend-livid-phi.vercel.app/user/admin/orderStatus",
         {
           id: orderId,
           status: newStatus,

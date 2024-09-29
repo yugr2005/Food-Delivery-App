@@ -7,7 +7,7 @@ export function HistoryPage() {
 
     const handleOrders = async () => {
         try {
-            const response = await axios.get("https://backend-livid-phi.vercel.app//user/history", {
+            const response = await axios.get("https://backend-livid-phi.vercel.app/user/history", {
                 headers: {
                     Authorization: `${localStorage.getItem("token")}`,
                 },
