@@ -29,7 +29,7 @@ export function CartPage() {
     try {
       const price = Math.round(parseFloat(getTotalPrice()) * 100);
       const response = await axios.post(
-        "https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/payment",
+        "https://backend-livid-phi.vercel.app//user/payment",
         { amount: price },
         { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
@@ -69,7 +69,7 @@ export function CartPage() {
 
       if (paymentIntent.status === "succeeded") {
         await axios.post(
-          `https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/createorder/restaurant/${params.id}`,
+          `https://backend-livid-phi.vercel.app//user/createorder/restaurant/${params.id}`,
           {
             restaurant: params.name,
             order: sendOrder,

@@ -12,7 +12,7 @@ export function RestroSignupPage() {
     const navigate = useNavigate();
 
     async function handleSignup() {
-        await axios.post('https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/register', {
+        await axios.post('https://backend-livid-phi.vercel.app//user/register', {
             username: username,
             address: address,
             phone: phone

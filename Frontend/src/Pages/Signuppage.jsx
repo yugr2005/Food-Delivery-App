@@ -14,7 +14,7 @@ export function Signuppage() {
     const navigate = useNavigate();
 
     async function handleSignup() {
-        await axios.post('https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/signup', {
+        await axios.post('https://backend-livid-phi.vercel.app//user/signup', {
             username: username,
             email: email,
             address : address,

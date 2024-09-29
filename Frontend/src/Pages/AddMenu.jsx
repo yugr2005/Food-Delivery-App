@@ -9,7 +9,7 @@ export function AddMenu(){
     const[description, setDescription] = useState("");
 
     async function handleAddItem() {
-        const response = await axios.post('https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/additem', {
+        const response = await axios.post('https://backend-livid-phi.vercel.app//user/additem', {
             
             nameitem : nameitem,
             price : price,

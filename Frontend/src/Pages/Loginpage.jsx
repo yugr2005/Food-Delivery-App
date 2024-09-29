@@ -12,7 +12,7 @@ export function Loginpage() {
     const navigate = useNavigate();
 
     async function handleLogin() {
-        await axios.post('https://backend-g24oxukfs-yug-patels-projects-fdb0c28e.vercel.app/user/login', {
+        await axios.post('https://backend-livid-phi.vercel.app//user/login', {
             username: username,
             password: pass
         })
